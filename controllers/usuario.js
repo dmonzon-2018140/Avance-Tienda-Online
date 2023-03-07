@@ -37,7 +37,7 @@ const putUsuario = async(req = request, res = response) => {
 
     if (resto.password) {
         const salt = bcrypt.genSaltSync();
-        resto.password = bcrypt.hashSync(password, salt);
+        resto.password = bcrypt.hashSync(resto.password, salt);
     }
 
     const usuarioEditado = await Usuario.findByIdAndUpdate(id, resto);
