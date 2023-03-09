@@ -28,7 +28,7 @@ const postProducto = async(req = request, res = response) => {
 
     const productoDB = await Producto.findOne({nombre: body.nombre});
 
-    if (!productoDB) {
+    if (productoDB) {
         return res.status(400).json({
             msg: `El producto ${productoDB.nombre}, ya existe`
         });

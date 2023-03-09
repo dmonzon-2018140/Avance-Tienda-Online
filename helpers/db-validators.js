@@ -2,6 +2,7 @@ const Role = require('../models/role');
 const Usuario = require('../models/usuario');
 const Categoria = require('../models/categoria');
 const Producto = require('../models/producto');
+const Factura = require('../models/factura');
 
 const roleValido = async(rol = '') => {
     const existeRol = await Role.findOne({rol});
@@ -43,10 +44,19 @@ const existeProductoPorId = async(id) => {
     }
 }
 
+const existeFacturaPorId = async(id) => {
+    const facturaExistente = await Factura.findById(id);
+
+    if (!facturaExistente) {
+        throw new Error(`El id ${ id } no existe en la DB`);
+    }
+}
+
 module.exports = {
     roleValido,
     emailExiste,
     existeUsuarioPorId,
     existeCategoriaPorId,
-    existeProductoPorId
+    existeProductoPorId,
+    existeFacturaPorId
 }
