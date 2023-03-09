@@ -8,7 +8,7 @@ const router = Router();
 router.post('/login', [
     check('correo', 'El correo no es valido').isEmail(),
     check('password', 'La password es obligatoria').not().isEmpty(),
-    validarCampos,
-] ,login);
+    validarCampos
+], login);
 
 module.exports = router;

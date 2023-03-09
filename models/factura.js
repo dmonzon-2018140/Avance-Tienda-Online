@@ -6,7 +6,7 @@ const FacturaSchema = Schema({
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },
-    direccion_empresa: {
+    direccion: {
         type: String,
         required: [true, 'La direccion es obligatorio'],
         unique: true

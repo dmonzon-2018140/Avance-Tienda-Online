@@ -19,6 +19,7 @@ router.get('/:id', [
 router.post('/agregar', [
     validarJWT,
     check('nombre', 'Nombre es obligatorio').not().isEmpty(),
+    check('direccion', 'Direccion obligatoria').not().isEmpty(),
     validarCampos
 ], postFactura);
 
