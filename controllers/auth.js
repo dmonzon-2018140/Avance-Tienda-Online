@@ -11,7 +11,7 @@ const login = async(req = request, res = response) => {
         const usuario = await Usuario.findOne({ correo });
         if ( !usuario ) {
             return res.status(400).json({
-                msg: 'Usuario / Password no son correctos - (El correo no existe jaja)'
+                msg: 'Usuario / Password no son correctos - (El correo no existe)'
             });
         }
 
@@ -32,7 +32,7 @@ const login = async(req = request, res = response) => {
 
         res.json({
             msg: 'Login PATH',
-            //correo, password,
+            correo, password,
             token
         });
 
