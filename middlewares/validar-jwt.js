@@ -12,7 +12,7 @@ const validarJWT = async( req = request, res= response, next ) => {
     }
 
     try {
-        const { uid } = jwt.verify( token, process.env.SECRET_KEY_FOR_TOKEN);
+        const { uid } = jwt.verify( token, process.env.SECRET_KEY_TOKEN);
         const usuario = await Usuario.findById( uid );
 
         if ( !usuario ) {
