@@ -1,8 +1,8 @@
-const { request, response, json} = require('express');
+const { request, response, json } = require('express');
 const Producto = require('../models/producto');
 
-const getProductos = async(req = request, res = response) => {
-    const query = {estado: true};
+const getProductos = async (req = request, res = response) => {
+    const query = { estado: true };
 
     const listaProductos = await Promise.all([
         Producto.countDocuments(query),
@@ -10,27 +10,31 @@ const getProductos = async(req = request, res = response) => {
     ]);
 
     res.json({
-        msg: 'Get Producto',
+        msg: 'Lista de productos activos',
         listaProductos
     });
+
 }
 
-const getProductoPorId = async(req = request, res = response) => {
-    const {id} = req.params;
 
-    const productoById = await Producto.findById(id).populate('usuario', 'nombre').populate('categoria', 'nombre');
+const getProductoPorId = async (req = request, res = response) => {
 
-    res.status(201).json(productoById);
+    const { id } = req.params;
+    const prouductoById = await Producto.findById(id).populate('usuario', 'nombre').populate('categoria', 'nombre');
+
+    res.status(201).json(prouductoById);
 }
 
-const postProducto = async(req = request, res = response) => {
-    const {estado, usuario, ...body} = req.body;
 
-    const productoDB = await Producto.findOne({nombre: body.nombre});
+const postProducto = async (req = request, res = response) => {
+
+    const { estado, usuario, ...body } = req.body;
+
+    const productoDB = await Producto.findOne({ nombre: body.nombre });
 
     if (productoDB) {
         return res.status(400).json({
-            msg: `El producto ${productoDB.nombre}, ya existe`
+            msg: `El producto ${productoDB.nombre}, ya existe en la DB`
         });
     }
 
@@ -45,40 +49,45 @@ const postProducto = async(req = request, res = response) => {
     await producto.save();
 
     res.status(201).json(producto);
+
 }
 
-const putProducto = async(req = request, res = response) => {
-    const {id} = req.params;
-    const {estado, usuario, ...restoData} = req.body;
+
+const putProducto = async (req = request, res = response) => {
+    const { id } = req.params;
+    const { estado, usuario, ...restoData } = req.body;
 
     if (restoData.nombre) {
         restoData.nombre = restoData.nombre.toUpperCase();
         restoData.usuario = req.usuario._id;
     }
 
-    const productoEditado = await Producto.findByIdAndUpdate(id, restoData, {new: true});
+    const productoActualizado = await Producto.findByIdAndUpdate(id, restoData, { new: true });
 
     res.status(201).json({
-        msg: 'Put Producto',
-        productoEditado
+        msg: 'Put Controller Producto',
+        productoActualizado
     })
+
 }
 
-const deleteProducto = async(req = request, res = response) => {
-    const {id} = req.params;
+const deleteProducto = async (req = request, res = response) => {
+    const { id } = req.params;
 
-    const productoEliminado = await Producto.findByIdAndUpdate(id, {estado: false}, {new: true});
+    const productoEliminado = await Producto.findByIdAndUpdate(id, { estado: false }, { new: true });
 
-    res.status(201).json({
+
+    res.json({
         msg: 'DELETE',
         productoEliminado
-    });
+    })
+
 }
 
 module.exports = {
-    getProductos,
-    getProductoPorId,
     postProducto,
     putProducto,
-    deleteProducto
+    deleteProducto,
+    getProductos,
+    getProductoPorId
 }
